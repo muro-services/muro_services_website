@@ -58,7 +58,6 @@
     .h-title{ font-family:'Montserrat',sans-serif; color:#856042; }
 
     .circle{ width:184px; height:184px; border-radius:9999px; background:#fff; box-shadow:0 8px 22px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:center; margin-inline:auto; border:1px solid rgba(199,159,127,.28); transition:transform .18s ease; overflow:hidden; }
-    /* Make the images appear larger and fill the circular area while preserving aspect ratio */
     .circle img{
       width:120px;
       height:120px;
@@ -71,15 +70,12 @@
     .tile-title{ color:#856042; font-weight:600; text-align:center; margin-top:.75rem; font-size:.95rem; }
     .tab[aria-selected="true"] .circle{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color:#c79f7f; }
 
-    /* Under-circle reveal panel (same pattern as Data & Technology) */
     .reveal-panel{
       background:#ffffff; border-radius:16px; border:1px solid rgba(199,159,127,.35);
       box-shadow:0 8px 22px rgba(0,0,0,.06);
-      /* Prepare for transition: visible state */
       opacity:1; transform:translateY(0); max-height:1000px; overflow:visible;
       transition:opacity .28s ease, transform .28s ease, max-height .32s ease, padding .28s ease, border-color .18s ease;
     }
-    /* Hidden/closed state: collapse from layout and fade out */
     .reveal-panel.closed{
       opacity:0; transform:translateY(-6px); max-height:0; overflow:hidden;
       padding-top:0; padding-bottom:0; border-color:transparent; box-shadow:none;
@@ -88,64 +84,84 @@
     .fade-divider{ height:1px; background:linear-gradient(90deg,transparent,#c7a288,transparent); max-width:420px; margin:22px auto 0; opacity:.5; }
 
     /* Dropdown Menu */
-    .dropdown { 
-      position: relative; 
-      display: inline-block;
-    }
-    .dropdown > a {
-      display: block;
-    }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown > a { display: block; }
     .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #f5f5f5;
-      border: 1px solid rgba(133,96,66,.2);
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.1);
-      padding: 12px;
-      min-width: 200px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
-      transform: translateX(-50%) translateY(-4px);
-      z-index: 1000;
-      margin-top: 8px;
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: #f5f5f5; border: 1px solid rgba(133,96,66,.2); border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.1); padding: 12px; min-width: 200px;
+      opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+      transform: translateX(-50%) translateY(-4px); z-index: 1000; margin-top: 8px;
     }
     .dropdown:hover .dropdown-menu,
-    .dropdown:focus-within .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
+    .dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
     .dropdown-item {
-      display: block;
-      padding: 10px 16px;
-      margin: 4px 0;
-      color: #856042;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      transition: background-color .15s ease, color .15s ease;
+      display: block; padding: 10px 16px; margin: 4px 0; color: #856042; text-decoration: none;
+      border-radius: 8px; font-weight: 600; font-size: 14px; transition: background-color .15s ease, color .15s ease;
       border: 1px solid transparent;
     }
-    .dropdown-item:hover {
-      background-color: #568a99;
-      color: #f5f5f5;
-      border-color: #446c77;
-    }
+    .dropdown-item:hover { background-color: #568a99; color: #f5f5f5; border-color: #446c77; }
 
     .img-cover{ width:100%; height:100%; object-fit:cover; }
 
-    /* Responsive: slightly smaller circles on narrow screens and ensure images fit */
+    /* ————— DESKTOP-ONLY ADJUSTMENTS ————— */
+    @media (min-width: 641px){
+      /* 1) Ensure all content starts below fixed header */
+      body{ padding-top: var(--nav-h); }
+      /* Fix anchor jumps so sections align below the header on click */
+      section[id]{ scroll-margin-top: var(--nav-h); }
+
+      /* 2) Fit Grants content inside the Grants section on desktop (avoid inner scrolling) */
+      #grants > .container{
+        /* Make the grants container fill the remaining viewport and center its content */
+        height: calc(100vh - var(--nav-h));
+        display:flex;
+        align-items:center;
+        box-sizing: border-box;
+        padding-top: 12px;
+        padding-bottom: 28px; /* keep content clear of the down-arrow */
+      }
+
+      /* Reduce typography and spacing inside Grants on desktop so everything fits without scrolling */
+      #grants .h-title{ font-size: 1.35rem; }
+      #grants p{ font-size: .95rem; line-height:1.2; }
+      #grants .mt-8.grid{ gap: 1rem; }
+  /* Ensure the image column doesn't push the layout taller than the section */
+  /* Let the responsive clamp() height control the Grants image region on desktop */
+  #grants .md\:col-span-5{ overflow:hidden; }
+      #grants .img-cover{ width:100%; height:100%; object-fit:cover; }
+      /* Tighter cards in the right column */
+      #grants .p-5{ padding: .75rem; }
+      #grants .p-5 h3{ font-size: .95rem; }
+      #grants .p-5 p{ font-size: .85rem; margin-top:.35rem; }
+
+      /* Ensure Grants and Campaign icon containers match on desktop */
+      /* Use a responsive image container height so icons scale with viewport (desktop only) */
+      #grants .md\:col-span-5, #campaign .md\:col-span-5{
+        /* Taller by default on desktop; scales with viewport height but bounded */
+        height: clamp(260px, 28vh, 520px);
+        overflow: hidden;
+      }
+      #grants .md\:col-span-5 .img-cover, #campaign .md\:col-span-5 .img-cover{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+  /* Slightly smaller headers and body text on desktop for Grants & Campaign (reduced per request) */
+  #grants .h-title, #campaign .h-title{ font-size: 1.35rem; }
+  #grants p, #campaign p{ font-size: 1.00rem; line-height:1.22; }
+
+  /* Slightly reduced card title and body sizes so content remains proportional */
+  #grants .p-5 h3, #campaign .p-5 h3{ font-size: 1.00rem; }
+  #grants .p-5 p, #campaign .p-5 p{ font-size: .90rem; margin-top:.4rem; }
+    }
+
+    /* ————— MOBILE (unchanged) ————— */
     @media (max-width: 640px) {
       .circle { width:140px; height:140px; }
       .circle img { width:70%; height:auto; }
-      /* Tighter typography and spacing to ensure content fits within a single mobile viewport */
       .h-title{ font-size: clamp(18px, 5.5vw, 22px); }
-      /* Specifically reduce Growth Hero heading and its lead paragraph on mobile only (desktop unchanged) */
       #growth-hero .h-title { font-size: clamp(16px, 5.2vw, 20px); line-height: 1.05; margin-bottom: 6px; }
       #growth-hero .max-w-5xl > p { font-size: clamp(12px, 3.2vw, 13px); margin-top: 6px; }
       .h-title + p, .h-title + p + .mt-8{ margin-top: .45rem; }
@@ -153,17 +169,11 @@
       .tile-title{ margin-top:.5rem; }
       .container{ padding-left: .5rem; padding-right:.5rem; }
       .max-w-5xl, .max-w-6xl, .max-w-3xl{ max-width: 92vw; }
-      /* Mobile-specific: hide Grants and Campaign sections so mobile jumps from hero to CTA
-         and disable circle hover/selection animations and the reveal textboxes. */
       #grants, #campaign { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; padding: 0 !important; margin: 0 !important; }
-      /* Remove the reveal panel (textboxes) on mobile */
       #reveal-panel { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; }
-      /* Disable circle hover/selection animations on mobile */
       .circle { transition: none !important; transform: none !important; }
       .tab[aria-selected="true"] .circle { transform: none !important; box-shadow: none !important; border-color: rgba(199,159,127,.28) !important; }
-      /* Prevent accidental focus/hover visual changes */
       .tab:focus .circle, .tab:hover .circle { transform: none !important; }
-      /* Ensure each section begins below the fixed header and fills the mobile viewport (use svh for mobile) */
       section.full{
         height: 100svh !important;
         min-height: 100svh !important;
@@ -171,24 +181,18 @@
         box-sizing: border-box;
         overflow: hidden;
       }
-      /* Make the main container in each section scrollable when content exceeds the available area */
       section.full > .container{
         max-height: calc(100svh - var(--nav-h) - 24px);
         overflow: auto;
         -webkit-overflow-scrolling: touch;
       }
-      /* Shrink circles a bit more to ensure everything fits comfortably on smaller phones */
       .circle { width:110px; height:110px; }
       .circle img { width:56%; height:auto; }
-      /* Further reduce circles and tile text inside the growth hero only (mobile only) */
       #growth-hero .circle { width:86px !important; height:86px !important; }
       #growth-hero .circle img { width:50% !important; height:auto !important; }
       #growth-hero .tile-title{ font-size: clamp(10px, 2.2vw, 12px) !important; margin-top:.35rem !important; }
-      /* Tighten spacing for the tab grid inside the hero so tiles fit on one row where possible */
       #growth-hero [role="tablist"]{ gap: .6rem !important; }
-      /* Reduce padding inside reveal panel area (hidden already) and other blocks to avoid overflow */
       .reveal-panel, .p-5, .mt-8 { padding: 6px !important; margin-top: .5rem !important; }
-      /* Shift CTA content up a bit so button sits higher in the viewport on mobile */
       #cta .max-w-3xl{ transform: translateY(-0.9rem); }
       #cta .max-w-3xl a.inline-block{ transform: translateY(-0.6rem); }
     }
@@ -388,7 +392,7 @@
       </div>
 
       <a href="#cta" class="section-arrow" aria-label="Scroll to CTA">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 rotate-180 sm:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </a>
     </div>
   </section>
@@ -397,21 +401,18 @@
   <section id="cta" class="full">
     <div class="container px-4 w-full">
       <div class="max-w-3xl mx-auto text-center">
-        <!-- Transparent icon above heading -->
         <img src="assets/landing-icon-transparent.png" alt="" class="mx-auto w-48 md:w-56 opacity-70 mb-3 select-none pointer-events-none" />
         <h2 class="h-title text-2xl md:text-3xl">Ready to get started?</h2>
         <a href="index.html#contact" class="inline-block mt-6 bg-primary text-paper font-semibold px-6 py-3 rounded-lg hover:bg-accent transition active:scale-[.99]">CONTACT US</a>
         <div class="fade-divider"></div>
       </div>
 
-      <!-- Up arrow back to top -->
       <a href="#growth-hero" class="section-arrow" aria-label="Back to top">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="bg-dark-brown py-8 text-center text-sm text-paper border-top border-secondary/40">
     <p>© <span id="year"></span> Muro Consulting Services</p>
   </footer>
@@ -419,7 +420,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Tabs: reveal text under circles — match Data & Technology behavior, with a short hide delay to avoid jitter
+    // Tabs: reveal text under circles
     const tabs = Array.from(document.querySelectorAll('.tab[role="tab"]'));
     const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
     const tablist = document.querySelector('[role="tablist"]');
@@ -454,7 +455,6 @@
       if(revealPanel) revealPanel.classList.remove('closed');
     }
 
-    // Open panel while tab is hovered, focused, or clicked
     tabs.forEach(tab=>{
       const open = ()=> showPanelByTabId(tab.id);
       tab.addEventListener('mouseenter', open);
@@ -463,20 +463,17 @@
       tab.addEventListener('mouseleave', ()=> scheduleHideAll());
     });
 
-    // Keep panel open when pointer moves into it
     if(revealPanel){
       revealPanel.addEventListener('mouseenter', clearHideTimer);
       revealPanel.addEventListener('mouseleave', ()=> scheduleHideAll());
     }
 
-    // Hide panels when mouse leaves the tablist area (but allow moving into the panel)
     if(tablist){
       const area = tablist.parentElement || tablist;
       area.addEventListener('mouseleave', ()=> scheduleHideAll());
       area.addEventListener('mouseenter', clearHideTimer);
     }
 
-    // Hide panels when focus moves outside the tablist or the reveal panel (keyboard users)
     document.addEventListener('focusin', ()=>{
       const active = document.activeElement;
       if(!(tablist && tablist.contains(active)) && !(revealPanel && revealPanel.contains(active))){
@@ -484,11 +481,10 @@
       }
     });
 
-    // Ensure panels are hidden on initial load (no white panel visible until interaction)
     hideAllPanels();
   </script>
   
-  <!-- Mobile-only: make each section-arrow navigate to the next visible section (skip hidden ones) -->
+  <!-- Mobile-only: make each section-arrow navigate to the next visible section -->
   <script>
     (function(){
       const mq = window.matchMedia('(max-width:640px)');
@@ -513,7 +509,7 @@
     })();
   </script>
 
-  <!-- Mobile menu open/close + auto-close on selection/hash change (copied from index.html) -->
+  <!-- Mobile menu open/close + auto-close on selection/hash change -->
   <script>
     (function(){
       const btn = document.getElementById('menu-toggle');
@@ -525,6 +521,19 @@
         });
         window.addEventListener('hashchange', ()=> mm.classList.add('hidden'));
       }
+    })();
+  </script>
+  <!-- Desktop safeguard: ensure growth hero arrow links to Grants on larger viewports -->
+  <script>
+    (function(){
+      function ensureHeroArrow(){
+        if(window.matchMedia && window.matchMedia('(min-width:768px)').matches){
+          const hero = document.querySelector('#growth-hero a.section-arrow');
+          if(hero) hero.setAttribute('href','#grants');
+        }
+      }
+      document.addEventListener('DOMContentLoaded', ensureHeroArrow);
+      window.addEventListener('resize', ensureHeroArrow);
     })();
   </script>
 </body>
