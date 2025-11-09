@@ -188,7 +188,7 @@
 <body class="overflow-x-hidden">
 
   <!-- NAV -->
-  <nav class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
+  <nav id="site-nav" class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
     <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
       <a href="index.html#hero" class="text-base md:text-lg font-bold text-dark-brown hover:text-primary transition">Home</a>
       <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
@@ -201,14 +201,14 @@
           </div>
         </div>
         <div class="dropdown">
-          <a href="index.html#services" class="text-dark-brown hover:text-primary transition">Services</a>
+          <a href="index.html#services" class="nav-link text-dark-brown hover:text-primary transition">Services</a>
           <div class="dropdown-menu">
             <a href="growth_and_engagement.html" class="dropdown-item">Growth & Engagement</a>
             <a href="data_technology.html" class="dropdown-item">Data & Technology</a>
             <a href="operations_systems.html" class="dropdown-item">Operations & Systems</a>
           </div>
         </div>
-        <a href="index.html#contact" class="text-dark-brown hover:text-primary">Contact Us</a>
+        <a href="index.html#contact" class="nav-link text-dark-brown hover:text-primary">Contact Us</a>
       </div>
       
       <!-- Mobile button (matches index.html) -->
@@ -462,6 +462,20 @@
 
     // Ensure panels are hidden on initial load (no white panel visible until interaction)
     hideAllPanels();
+  </script>
+  <!-- Mobile menu open/close + auto-close on selection/hash change (copied from index.html) -->
+  <script>
+    (function(){
+      const btn = document.getElementById('menu-toggle');
+      const mm  = document.getElementById('mobile-menu');
+      if(btn && mm){
+        btn.addEventListener('click', ()=> mm.classList.toggle('hidden'));
+        mm.querySelectorAll('a').forEach(a=>{
+          a.addEventListener('click', ()=> mm.classList.add('hidden'));
+        });
+        window.addEventListener('hashchange', ()=> mm.classList.add('hidden'));
+      }
+    })();
   </script>
 </body>
 </html>

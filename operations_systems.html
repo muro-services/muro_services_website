@@ -186,12 +186,12 @@
 <body class="overflow-x-hidden">
 
   <!-- NAV -->
-  <nav class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
+  <nav id="site-nav" class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
     <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
       <a href="index.html#hero" class="text-base md:text-lg font-bold text-dark-brown hover:text-primary transition">Home</a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
+      <div class="hidden md:flex items-center gap-6 text-sm font-semibold" id="nav-links">
         <div class="dropdown">
-          <a href="index.html#about" class="text-dark-brown hover:text-primary">About</a>
+          <a href="index.html#about" class="nav-link text-dark-brown hover:text-primary">About</a>
           <div class="dropdown-menu">
             <a href="index.html#about" class="dropdown-item">About Us</a>
             <a href="index.html#approach" class="dropdown-item">Our Approach</a>
@@ -199,14 +199,32 @@
           </div>
         </div>
         <div class="dropdown">
-          <a href="index.html#services" class="text-dark-brown hover:text-primary transition">Services</a>
+          <a href="index.html#services" class="nav-link text-dark-brown hover:text-primary transition">Services</a>
           <div class="dropdown-menu">
             <a href="growth_and_engagement.html" class="dropdown-item">Growth & Engagement</a>
             <a href="data_technology.html" class="dropdown-item">Data & Technology</a>
             <a href="operations_systems.html" class="dropdown-item">Operations & Systems</a>
           </div>
         </div>
-        <a href="index.html#contact" class="text-dark-brown hover:text-primary">Contact Us</a>
+        <a href="index.html#contact" class="nav-link text-dark-brown hover:text-primary">Contact Us</a>
+      </div>
+
+      <!-- Mobile button (matches Growth & Engagement) -->
+      <button id="menu-toggle" class="md:hidden inline-flex items-center justify-center rounded-md border border-dark-brown/30 px-3 py-2 text-dark-brown">
+        <span class="sr-only">Open menu</span>☰
+      </button>
+    </div>
+    <!-- Mobile dropdown (matches Growth & Engagement) -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-dark-brown/20 bg-paper/95">
+      <div class="max-w-6xl mx-auto px-4 py-3 space-y-2 text-sm font-semibold">
+        <a href="index.html#about" class="block text-dark-brown">About</a>
+        <a href="index.html#services" class="block text-dark-brown">Services</a>
+        <div class="pl-3 space-y-1">
+          <a href="growth_and_engagement.html" class="block text-dark-brown/90">• Growth & Engagement</a>
+          <a href="data_technology.html" class="block text-dark-brown/90">• Data & Technology</a>
+          <a href="operations_systems.html" class="block text-dark-brown/90">• Operations & Systems</a>
+        </div>
+        <a href="index.html#contact" class="block text-dark-brown">Contact Us</a>
       </div>
     </div>
   </nav>
@@ -354,6 +372,18 @@
 
     // Ensure panels are hidden on initial load (no white panel visible until interaction)
     hideAllPanels();
+  </script>
+  <!-- Mobile menu open/close + auto-close on selection/hash change (copied from growth_and_engagement.html) -->
+  <script>
+    (function(){
+      const btn = document.getElementById('menu-toggle');
+      const mm  = document.getElementById('mobile-menu');
+      if(btn && mm){
+        btn.addEventListener('click', ()=> mm.classList.toggle('hidden'));
+        mm.querySelectorAll('a').forEach(a=>{ a.addEventListener('click', ()=> mm.classList.add('hidden')); });
+        window.addEventListener('hashchange', ()=> mm.classList.add('hidden'));
+      }
+    })();
   </script>
 </body>
 </html>

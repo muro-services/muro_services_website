@@ -143,11 +143,11 @@
     @media (max-width: 640px) {
       .circle { width:140px; height:140px; }
       .circle img { width:70%; height:auto; }
-  /* Tighter typography and spacing to ensure content fits within a single mobile viewport */
-  .h-title{ font-size: clamp(18px, 5.5vw, 22px); }
-  /* Specifically reduce Growth Hero heading and its lead paragraph on mobile only (desktop unchanged) */
-  #growth-hero .h-title { font-size: clamp(16px, 5.2vw, 20px); line-height: 1.05; margin-bottom: 6px; }
-  #growth-hero .max-w-5xl > p { font-size: clamp(12px, 3.2vw, 13px); margin-top: 6px; }
+      /* Tighter typography and spacing to ensure content fits within a single mobile viewport */
+      .h-title{ font-size: clamp(18px, 5.5vw, 22px); }
+      /* Specifically reduce Growth Hero heading and its lead paragraph on mobile only (desktop unchanged) */
+      #growth-hero .h-title { font-size: clamp(16px, 5.2vw, 20px); line-height: 1.05; margin-bottom: 6px; }
+      #growth-hero .max-w-5xl > p { font-size: clamp(12px, 3.2vw, 13px); margin-top: 6px; }
       .h-title + p, .h-title + p + .mt-8{ margin-top: .45rem; }
       p, .tile-title{ font-size: clamp(12px, 2.6vw, 14px); }
       .tile-title{ margin-top:.5rem; }
@@ -177,15 +177,15 @@
         overflow: auto;
         -webkit-overflow-scrolling: touch;
       }
-  /* Shrink circles a bit more to ensure everything fits comfortably on smaller phones */
-  .circle { width:110px; height:110px; }
-  .circle img { width:56%; height:auto; }
-  /* Further reduce circles and tile text inside the growth hero only (mobile only) */
-  #growth-hero .circle { width:86px !important; height:86px !important; }
-  #growth-hero .circle img { width:50% !important; height:auto !important; }
-  #growth-hero .tile-title{ font-size: clamp(10px, 2.2vw, 12px) !important; margin-top:.35rem !important; }
-  /* Tighten spacing for the tab grid inside the hero so tiles fit on one row where possible */
-  #growth-hero [role="tablist"]{ gap: .6rem !important; }
+      /* Shrink circles a bit more to ensure everything fits comfortably on smaller phones */
+      .circle { width:110px; height:110px; }
+      .circle img { width:56%; height:auto; }
+      /* Further reduce circles and tile text inside the growth hero only (mobile only) */
+      #growth-hero .circle { width:86px !important; height:86px !important; }
+      #growth-hero .circle img { width:50% !important; height:auto !important; }
+      #growth-hero .tile-title{ font-size: clamp(10px, 2.2vw, 12px) !important; margin-top:.35rem !important; }
+      /* Tighten spacing for the tab grid inside the hero so tiles fit on one row where possible */
+      #growth-hero [role="tablist"]{ gap: .6rem !important; }
       /* Reduce padding inside reveal panel area (hidden already) and other blocks to avoid overflow */
       .reveal-panel, .p-5, .mt-8 { padding: 6px !important; margin-top: .5rem !important; }
       /* Shift CTA content up a bit so button sits higher in the viewport on mobile */
@@ -196,13 +196,15 @@
 </head>
 <body class="overflow-x-hidden">
 
-  <!-- NAV -->
-    <nav class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
+  <!-- NAV (updated to match index.html, including mobile menu) -->
+  <nav id="site-nav" class="fixed top-0 left-0 w-full bg-paper/90 border-b border-dark-brown/20 z-50 h-16">
     <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
       <a href="index.html#hero" class="text-base md:text-lg font-bold text-dark-brown hover:text-primary transition">Home</a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-semibold" id="nav-links">
         <div class="dropdown">
-          <a href="index.html#about" class="text-dark-brown hover:text-primary">About</a>
+          <a href="index.html#about" class="nav-link text-dark-brown hover:text-primary transition">About</a>
           <div class="dropdown-menu">
             <a href="index.html#about" class="dropdown-item">About Us</a>
             <a href="index.html#approach" class="dropdown-item">Our Approach</a>
@@ -210,18 +212,37 @@
           </div>
         </div>
         <div class="dropdown">
-          <a href="index.html#services" class="text-dark-brown hover:text-primary transition">Services</a>
+          <a href="index.html#services" class="nav-link text-dark-brown hover:text-primary transition">Services</a>
           <div class="dropdown-menu">
             <a href="growth_and_engagement.html" class="dropdown-item">Growth & Engagement</a>
             <a href="data_technology.html" class="dropdown-item">Data & Technology</a>
             <a href="operations_systems.html" class="dropdown-item">Operations & Systems</a>
           </div>
         </div>
-        <a href="index.html#contact" class="text-dark-brown hover:text-primary">Contact Us</a>
+        <a href="index.html#contact" class="nav-link text-dark-brown hover:text-primary transition">Contact Us</a>
       </div>
-      
+
+      <!-- Mobile button -->
+      <button id="menu-toggle" class="md:hidden inline-flex items-center justify-center rounded-md border border-dark-brown/30 px-3 py-2 text-dark-brown">
+        <span class="sr-only">Open menu</span>☰
+      </button>
     </div>
-    </nav> 
+
+    <!-- Mobile dropdown -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-dark-brown/20 bg-paper/95">
+      <div class="max-w-6xl mx-auto px-4 py-3 space-y-2 text-sm font-semibold">
+        <a href="index.html#about" class="block text-dark-brown">About</a>
+        <a href="index.html#services" class="block text-dark-brown">Services</a>
+        <div class="pl-3 space-y-1">
+          <a href="growth_and_engagement.html" class="block text-dark-brown/90">• Growth & Engagement</a>
+          <a href="data_technology.html" class="block text-dark-brown/90">• Data & Technology</a>
+          <a href="operations_systems.html" class="block text-dark-brown/90">• Operations & Systems</a>
+        </div>
+        <a href="index.html#contact" class="block text-dark-brown">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- SECTION 1: HERO + CIRCLES (hover/click reveal) -->
   <section id="growth-hero" class="full">
     <div class="container px-4 w-full">
@@ -489,6 +510,21 @@
       document.addEventListener('DOMContentLoaded', updateArrows);
       window.addEventListener('resize', debounce(updateArrows, 120));
       window.addEventListener('orientationchange', updateArrows);
+    })();
+  </script>
+
+  <!-- Mobile menu open/close + auto-close on selection/hash change (copied from index.html) -->
+  <script>
+    (function(){
+      const btn = document.getElementById('menu-toggle');
+      const mm  = document.getElementById('mobile-menu');
+      if(btn && mm){
+        btn.addEventListener('click', ()=> mm.classList.toggle('hidden'));
+        mm.querySelectorAll('a').forEach(a=>{
+          a.addEventListener('click', ()=> mm.classList.add('hidden'));
+        });
+        window.addEventListener('hashchange', ()=> mm.classList.add('hidden'));
+      }
     })();
   </script>
 </body>
