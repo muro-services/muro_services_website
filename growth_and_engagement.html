@@ -159,6 +159,46 @@
 
     /* ————— MOBILE (unchanged) ————— */
     @media (max-width: 640px) {
+      /* Mobile dropdown/menu styling — match index.html mobile appearance */
+      #mobile-menu{ padding:8px 0; }
+      #mobile-menu .max-w-6xl{
+        width:calc(100% - 32px);
+        max-width:640px;
+        margin:8px auto;
+        background:#f5f5f5;
+        border:1px solid rgba(133,96,66,.2);
+        border-radius:12px;
+        box-shadow:0 10px 25px rgba(0,0,0,.09);
+        padding:10px;
+      }
+      /* make each link a large, tappable item with hover/focus states like desktop .dropdown-item */
+      #mobile-menu a{
+        display:block;
+        padding:12px 14px;
+        margin:6px 0;
+        color:#856042;
+        text-decoration:none;
+        border-radius:8px;
+        font-weight:600;
+        font-size:15px;
+        transition:background-color .15s ease, color .15s ease, border-color .15s ease;
+        border:1px solid transparent;
+        background:transparent;
+      }
+      #mobile-menu a:hover,
+      #mobile-menu a:focus{
+        background-color:#568a99;
+        color:#f5f5f5;
+        border-color:#446c77;
+        outline:none;
+      }
+      /* slightly smaller and indented for the sub-items that live inside the .pl-3 wrapper */
+      #mobile-menu .pl-3 a{
+        padding-left:22px;
+        font-size:14px;
+        opacity:.95;
+      }
+
       .circle { width:140px; height:140px; }
       .circle img { width:70%; height:auto; }
       .h-title{ font-size: clamp(18px, 5.5vw, 22px); }
@@ -169,8 +209,7 @@
       .tile-title{ margin-top:.5rem; }
       .container{ padding-left: .5rem; padding-right:.5rem; }
       .max-w-5xl, .max-w-6xl, .max-w-3xl{ max-width: 92vw; }
-      #grants, #campaign { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; padding: 0 !important; margin: 0 !important; }
-      #reveal-panel { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; }
+  #grants, #campaign { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; padding: 0 !important; margin: 0 !important; }
       .circle { transition: none !important; transform: none !important; }
       .tab[aria-selected="true"] .circle { transform: none !important; box-shadow: none !important; border-color: rgba(199,159,127,.28) !important; }
       .tab:focus .circle, .tab:hover .circle { transform: none !important; }
@@ -193,6 +232,16 @@
       #growth-hero .tile-title{ font-size: clamp(10px, 2.2vw, 12px) !important; margin-top:.35rem !important; }
       #growth-hero [role="tablist"]{ gap: .6rem !important; }
       .reveal-panel, .p-5, .mt-8 { padding: 6px !important; margin-top: .5rem !important; }
+      /* Mobile: responsive, slightly smaller text inside the reveal textbox so it fits better on small screens */
+      #growth-hero #reveal-panel h3{
+        font-size: clamp(0.8rem, 3.6vw, 0.95rem) !important;
+        line-height: 1.05 !important;
+      }
+      #growth-hero #reveal-panel p{
+        font-size: clamp(0.72rem, 2.6vw, 0.85rem) !important;
+        margin-top: .35rem !important;
+        line-height: 1.2 !important;
+      }
       #cta .max-w-3xl{ transform: translateY(-0.9rem); }
       #cta .max-w-3xl a.inline-block{ transform: translateY(-0.6rem); }
     }
@@ -228,7 +277,10 @@
 
       <!-- Mobile button -->
       <button id="menu-toggle" class="md:hidden inline-flex items-center justify-center rounded-md border border-dark-brown/30 px-3 py-2 text-dark-brown">
-        <span class="sr-only">Open menu</span>☰
+        <span class="sr-only">Open menu</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
     </div>
 
@@ -460,6 +512,12 @@
       tab.addEventListener('mouseenter', open);
       tab.addEventListener('focus', open);
       tab.addEventListener('click', open);
+      // Support touch devices: pointerdown with pointerType check, fall back to touchstart
+      if (window.PointerEvent) {
+        tab.addEventListener('pointerdown', (e)=>{ if(e.pointerType === 'touch') open(); });
+      } else {
+        tab.addEventListener('touchstart', open);
+      }
       tab.addEventListener('mouseleave', ()=> scheduleHideAll());
     });
 
