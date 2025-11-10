@@ -160,6 +160,49 @@
     /* === MOBILE-ONLY OVERRIDES (desktop unchanged) === */
     @media (max-width: 640px){
 
+      /* Mobile dropdown/menu styling - visually similar to desktop dropdown-menu */
+      /* This only applies to the mobile stacked menu (`#mobile-menu`) so desktop dropdowns remain unchanged */
+      #mobile-menu{ padding:8px 0; }
+      #mobile-menu .max-w-6xl{
+        /* make the mobile menu appear as a centered card similar to desktop dropdown */
+        width:calc(100% - 32px);
+        max-width:640px;
+        margin:8px auto;
+        background:#f5f5f5; /* same as desktop dropdown-menu */
+        border:1px solid rgba(133,96,66,.2);
+        border-radius:12px;
+        box-shadow:0 10px 25px rgba(0,0,0,.09);
+        padding:10px;
+      }
+      /* make each link a large, tappable item with hover/focus states like desktop .dropdown-item */
+      #mobile-menu a{
+        display:block;
+        padding:12px 14px;
+        margin:6px 0;
+        color:#856042;
+        text-decoration:none;
+        border-radius:8px;
+        font-weight:600;
+        font-size:15px;
+        transition:background-color .15s ease, color .15s ease, border-color .15s ease;
+        border:1px solid transparent;
+        background:transparent;
+      }
+      #mobile-menu a:hover,
+      #mobile-menu a:focus{
+        background-color:#568a99;
+        color:#f5f5f5;
+        border-color:#446c77;
+        outline:none;
+      }
+      /* slightly smaller and indented for the sub-items that live inside the .pl-3 wrapper */
+      #mobile-menu .pl-3 a{
+        padding-left:22px;
+        font-size:14px;
+        opacity:.95;
+      }
+
+
       /* HERO: full screen without About peeking in */
       #hero.section{
         height: 100svh !important;
@@ -528,6 +571,34 @@
       });
       window.addEventListener('hashchange', ()=> mm.classList.add('hidden'));
     }
+
+    // Mobile-only: when header Home button is pressed while already at the landing/hero, reload the page
+    (function(){
+      const siteNav = document.getElementById('site-nav');
+      if(!siteNav) return;
+      const homeLink = siteNav.querySelector('a[href="#hero"]');
+      if(!homeLink) return;
+
+      function isOnHero(){
+        // Consider on-hero if the hash is #hero, or no-hash but scrolled near top
+        if(location.hash === '#hero') return true;
+        if(!location.hash){
+          return window.scrollY <= 12; // small tolerance for header height
+        }
+        return false;
+      }
+
+      homeLink.addEventListener('click', function(e){
+        // Only change behavior on small viewports (mobile)
+        if(!window.matchMedia('(max-width:640px)').matches) return;
+        if(isOnHero()){
+          e.preventDefault();
+          // Force a reload to refresh landing content
+          location.reload();
+        }
+        // otherwise let the link behave normally (scroll to hero)
+      });
+    })();
 
     // Optional: reveal animation handling
     const observer = new IntersectionObserver((entries)=>{
